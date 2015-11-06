@@ -12,5 +12,10 @@ namespace Aniink.Library
         public string Name { get; set; }
         public bool Open { get; set; }
         public IntPtr Pointer { get; internal set; }
+
+        public override string ToString()
+        {
+            return Index+": "+Name;
+        }
     }
 }

@@ -11,13 +11,24 @@ namespace Aniink.Prompt
     {
         static void Main(string[] args)
         {
-            var man = new Manager();
+            for (var text = ""; text != "exit";text = Console.ReadLine())
+            {
 
-            var printer =  Envoy.ChoosePrinter(man.Printers);
+                var man = new Manager();
 
-            Console.WriteLine(printer.Name);
+                var printer = Envoy.ChoosePrinter(man.Printers);
 
-            Console.ReadLine();
+                var info2 = man.GetPrinter(printer);
+
+                Envoy.PrintInfo(info2);
+
+                Console.WriteLine(printer.Name);
+
+                man.DocumentProperties
+
+                Console.Write("\n'exit' para sair\n>");
+
+            }
         }
     }
 }
