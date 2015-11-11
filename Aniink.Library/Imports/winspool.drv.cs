@@ -24,7 +24,8 @@ namespace Aniink.Library
 
         [DllImport("winspool.drv", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern int DocumentProperties(IntPtr hWnd, IntPtr hPrinter, string pDeviceName, IntPtr pDevModeOutput, IntPtr pDevModeInput, fModes fMode);
+        [DllImport("winspool.drv", EntryPoint = "FlushPrinter", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        private static extern bool FlushPrinter(IntPtr hPrinter, IntPtr pBuf, Int32 cbBuf, out Int32 pcWritten, Int32 cSleep);
 
-       
     }
 }

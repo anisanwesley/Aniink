@@ -34,7 +34,11 @@ namespace Aniink.Library
             }
 
         }
-
+        /// <summary>
+        /// Get Printer Info
+        /// </summary>
+        /// <param name="printer"></param>
+        /// <returns></returns>
         public PRINTER_INFO_2 GetPrinter(Printer printer)
         {
             IntPtr pHandle;
@@ -66,46 +70,22 @@ namespace Aniink.Library
             return SetDefaultPrinter(printer.Name);
         }
 
-        public IntPtr GetDevMode(Printer printer)
-        {
-            int sizeNeeded = DocumentProperties(IntPtr.Zero, printer.Pointer, printer.Name, IntPtr.Zero, IntPtr.Zero, fModes.DM_SIZEOF);
-            if (sizeNeeded < 0)
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-
-            // not really required, but see example: http://support.microsoft.com/kb/828638/en-us
-            sizeNeeded += 100;
-
-            IntPtr pdevmode = Marshal.AllocHGlobal(sizeNeeded);
-
-            int result = DocumentProperties(IntPtr.Zero, printer.Pointer, printer.Name, pdevmode, IntPtr.Zero, fModes.DM_OUT_BUFFER);
-            if (result < 0)
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-
-            Marshal.FreeHGlobal(printer.Pointer);
-
-            return pdevmode;
-        }
-
-        void OpenPrinterPropertiesDialog(PrinterSettings printerSettings)
-        {
-            IntPtr hDevMode = printerSettings.GetHdevmode(printerSettings.DefaultPageSettings);
-            IntPtr pDevMode = GlobalLock(hDevMode);
-            int sizeNeeded = DocumentProperties(IntPtr.Zero, IntPtr.Zero, printerSettings.PrinterName, IntPtr.Zero, pDevMode, 0);
-            IntPtr devModeData = Marshal.AllocHGlobal(sizeNeeded);
-            DocumentProperties(IntPtr.Zero, IntPtr.Zero, printerSettings.PrinterName, devModeData, pDevMode, 14);
-            GlobalUnlock(hDevMode);
-            printerSettings.SetHdevmode(devModeData);
-            printerSettings.DefaultPageSettings.SetHdevmode(devModeData);
-            GlobalFree(hDevMode);
-        }
-
+        /// <summary>
+        /// Open printer's properties dialog
+        /// </summary>
+        /// <param name="printer"></param>
+        /// <returns></returns>
         public int DocumentProperty(Printer printer)
         {
-            return DocumentProperties(IntPtr.Zero,printer.Pointer,printer.Name, IntPtr.Zero, IntPtr.Zero, (fModes)14);
+            return DocumentProperties(IntPtr.Zero, printer.Pointer, printer.Name, IntPtr.Zero, IntPtr.Zero, (fModes)14);
+        }
+
+        public bool FlushPrinter(Printer printer)
+        {
+            int i=0;
+            var result = FlushPrinter(printer.Pointer,IntPtr.Zero,0,out i,1000);
+            return result;
+
         }
     }
 }

@@ -14,8 +14,16 @@ namespace Aniink.Forms
     public partial class Main : Form
     {
 
-        Manager _man;
-        Printer _selected;
+        private static Manager _man;
+        public static Manager Manager {
+            get {
+                if (_man == null)
+                    _man = new Manager();
+                return _man;
+            }
+
+        }
+        Printer _selectedPrinter;
 
         public Main()
         {
@@ -27,18 +35,20 @@ namespace Aniink.Forms
 
             listPrinters.ContextMenu = PrinterListContextMenu();
 
+            _selectedPrinter = listPrinters.Items[0] as Printer;
+
         }
 
         private ContextMenu PrinterListContextMenu()
         {
             var contextMenu = new ContextMenu();
 
-            var viewDetails = new MenuItem
+            var properties = new MenuItem
             {
                 Index = 0,
-                Text = "View Details"
+                Text = "Properties"
             };
-            viewDetails.Click += ViewDetails_Click;
+            properties.Click += Properties_Click;
 
             var setAsDefault = new MenuItem
             {
@@ -47,26 +57,36 @@ namespace Aniink.Forms
             };
             setAsDefault.Click += SetAsDefault_Click;
 
-            contextMenu.MenuItems.AddRange(new MenuItem[] { viewDetails, setAsDefault });
+            var viewDetails = new MenuItem
+            {
+                Index = 1,
+                Text = "View Details"
+            };
+            viewDetails.Click += ViewDetails_Click;
 
-
-
+            contextMenu.MenuItems.AddRange(new MenuItem[] { setAsDefault , viewDetails,properties });
+            
             return contextMenu;
         }
 
+        public void Properties_Click(object sender, EventArgs e)
+        {
+            _man.DocumentProperty(_selectedPrinter);
+        }
         public void ViewDetails_Click(object sender, EventArgs e)
         {
-
+            var form = new PrinterInfo(_selectedPrinter);
+            form.Show();
         }
 
         public void SetAsDefault_Click(object sender, EventArgs e)
         {
-            _man.SetDefaultPrinter(_selected);
+            _man.SetDefaultPrinter(_selectedPrinter);
         }
         
         private void listPrinters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _selected = ((ListBox)sender).SelectedItem as Printer;
+            _selectedPrinter = ((ListBox)sender).SelectedItem as Printer;
         }
     }
 }

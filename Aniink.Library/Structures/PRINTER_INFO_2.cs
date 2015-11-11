@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aniink.Library.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -34,7 +35,7 @@ namespace Aniink.Library.Structures
         [MarshalAs(UnmanagedType.LPTStr)]
         public string pParameters;
         public IntPtr pSecurityDescriptor;
-        public uint Attributes; 
+        public PRINTER_ATTRIBUTES Attributes; 
         public uint Priority;
         public uint DefaultPriority;
         public uint StartTime;

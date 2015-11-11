@@ -41,13 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entensions\EnumExtension.cs" />
     <Compile Include="Enums\ACCESS_MASK.cs" />
     <Compile Include="Enums\fModes.cs" />
+    <Compile Include="Enums\PRINTER_ATTRIBUTES.cs" />
     <Compile Include="Imports\kernel32.dll.cs" />
     <Compile Include="Imports\winspool.drv.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structures\DEVMODE.cs" />
+    <Compile Include="Structures\DM.cs" />
     <Compile Include="Structures\PRINTER_DEFAULTS.cs" />
     <Compile Include="Structures\PRINTER_INFO_2.cs" />
   </ItemGroup>

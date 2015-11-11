@@ -24,7 +24,7 @@ namespace Aniink.Prompt
 
                 Console.WriteLine(printer.Name);
 
-                man.DocumentProperties
+                man.SetDefaultPrinter(printer);
 
                 Console.Write("\n'exit' para sair\n>");
 
